@@ -1,6 +1,7 @@
 <template>
     <div>
         <v-menu v-if="userActive"
+                class="mr-4"
                 min-width="200px"
                 rounded
         >
@@ -45,6 +46,7 @@
             </v-card>
         </v-menu>
         <v-btn v-else
+               class="mr-4"
                color="success"
                variant="outlined"
                prepend-icon="mdi-login"

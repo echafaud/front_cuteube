@@ -1,5 +1,5 @@
 import {accessInterceptor} from "@/functions/interceptors";
-
+import {refreshInterceptor} from "@/functions/interceptors"
 export default function (instance, baseDataConfig) {
     return {
         login(payload) {
@@ -8,7 +8,8 @@ export default function (instance, baseDataConfig) {
             credentials.params = JSON.parse(JSON.stringify(payload))
             return instance.post('login', credentials).then(value => {
                     if (value && !value.data.error) {
-                        instance.interceptors.request.use(accessInterceptor)
+                        // instance.interceptors.request.use(accessInterceptor)
+                        console.log(instance.interceptors)
                     }
                     return value
                 }
@@ -28,16 +29,16 @@ export default function (instance, baseDataConfig) {
             const payload = structuredClone(baseDataConfig)
             payload.params = {}
             payload.method = 'refresh'
-            return instance.post('register', payload)
+            return instance.post('refresh', payload)
         },
         logout() {
             const payload = structuredClone(baseDataConfig)
             payload.params = {}
             payload.method = 'logout'
+            console.log(instance.interceptors)
             return instance.post('logout', payload).then(value => {
-                    console.log(value)
                     if (value && !value.data.error) {
-                        instance.interceptors.request.clear()
+                        // instance.interceptors.request.clear()
                     }
                     return value
                 }

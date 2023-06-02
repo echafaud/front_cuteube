@@ -2,7 +2,6 @@
     <v-container fluid class="fill-height">
         <v-row>
             <v-col class="d-flex justify-center">
-
                 <v-card class="d-flex flex-column flex-shrink-1 flex-grow-1" max-width="420">
                     <v-card-title class="d-flex justify-center">
                         {{ formName }}

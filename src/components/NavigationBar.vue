@@ -1,5 +1,5 @@
 <template>
-    <v-app v-if="!hide">
+    <v-container v-if="!hide">
         <v-app-bar
                 prominent
         >
@@ -10,7 +10,7 @@
             <v-spacer></v-spacer>
             <v-btn variant="text" icon="mdi-magnify"></v-btn>
 
-            <v-btn variant="text" icon="mdi-video-plus"></v-btn>
+            <v-btn class="mr-4" variant="text" icon="mdi-video-plus"></v-btn>
             <avatar-navigation></avatar-navigation>
 
             <!--        <v-btn variant="text" icon="mdi-dots-vertical"></v-btn>-->
@@ -28,7 +28,7 @@
                 <v-list-item prepend-icon="mdi-history" title="История" @click="this.$router.push('/')"></v-list-item>
             </v-list>
         </v-navigation-drawer>
-    </v-app>
+    </v-container>
 </template>
 
 <script>

@@ -6,6 +6,8 @@ import router from "@/router/router";
 import store from "@/store/store";
 import api from '@/plugins/api'
 import errorHandler from "@/plugins/errorHandler";
+import VueVideoPlayer from '@videojs-player/vue'
+import 'video.js/dist/video-js.css'
 
 loadFonts()
 const app = createApp(App)
@@ -15,4 +17,5 @@ app
     .use(store)
     .use(api)
     .use(errorHandler)
+    .use(VueVideoPlayer)
     .mount('#app')

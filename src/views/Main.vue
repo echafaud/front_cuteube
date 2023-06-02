@@ -1,4 +1,6 @@
-<template>]
+<template>
+ <v-app> MAIN</v-app>
+
 </template>
 
 <script>
