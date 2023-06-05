@@ -1,7 +1,11 @@
+import errorHandler from "@/functions/errorHandler";
+import {api} from "@/api/api";
+
 export const authUser = {
     namespaced: true,
     state: () => ({
         user: JSON.parse(localStorage.getItem('user')) || {
+            id: null,
             name: null,
             username: null,
             email: null,
@@ -43,7 +47,8 @@ export const authUser = {
             state.user.refreshExpires = refreshExpires
         },
 
-        setUser(state, {name, username, email, is_active, is_superuser, is_verified}) {
+        setUser(state, {id, name, username, email, is_active, is_superuser, is_verified}) {
+            state.user.id = id
             state.user.name = name
             state.user.username = username
             state.user.email = email
@@ -57,6 +62,7 @@ export const authUser = {
         },
         deleteUser(state) {
             state.user = {
+                id: null,
                 name: null,
                 username: null,
                 email: null,
@@ -65,16 +71,33 @@ export const authUser = {
                 isVerified: null,
                 accessExpires: null,
             }
+            localStorage.removeItem('user')
         }
     },
     actions: {
-        userLogin({commit}, user) {
-            console.log(user)
-            commit('setUser', JSON.parse(JSON.stringify(user)))
+        async userLogin({commit}, formData) {
+            return errorHandler(async () => {
+                return await api.auth.login(formData)
+            }).then(value => {
+                if (value && value.code) {
+                    return value
+                } else {
+                    commit('setUser', JSON.parse(JSON.stringify(value)))
+                    return value
+                }
+            })
         },
         userLogout({commit}) {
-            commit('deleteUser')
-            localStorage.removeItem('user')
+            return errorHandler(async () => {
+                return await api.auth.logout()
+            }).then(value => {
+                if (value && value.code) {
+                    return value
+                } else {
+                    commit('deleteUser')
+                    return value
+                }
+            })
         }
     }
 }

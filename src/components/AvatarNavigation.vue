@@ -70,18 +70,27 @@ export default {
             userLogout: 'authUser/userLogout'
         }),
         logout() {
-            this.$errorHandler(async () => {
-                return await this.$api.auth.logout()
-            }).then(value => {
+            this.userLogout().then(value => {
                 if (value && value.code) {
                     console.log('error')
                 } else {
                     this.$router.push('/login').then(() => {
                         this.$router.go()
                     })
-                    this.userLogout()
                 }
             })
+            // this.$errorHandler(async () => {
+            //     return await this.$api.auth.logout()
+            // }).then(value => {
+            //     if (value && value.code) {
+            //         console.log('error')
+            //     } else {
+            //         this.$router.push('/login').then(() => {
+            //             this.$router.go()
+            //         })
+            //         this.userLogout()
+            //     }
+            // })
         },
 
     }

@@ -1,9 +1,10 @@
 <template>
     <v-row>
         <v-col v-if="ready" cols="9">
-            <custom-video-player :video-options="videoOptions" :video="video"></custom-video-player>
+
+            <custom-video-player :video-options="videoOptions"></custom-video-player>
             <!--            <video-player v-if="play" :options="videoOptions"/>-->
-            <video-below-content v-if="video.author" :video="video"></video-below-content>
+            <video-below-content></video-below-content>
 
         </v-col>
     </v-row>
@@ -23,19 +24,9 @@ import VideoBelowContent from "@/components/VideoBelowContent.vue";
 export default {
     name: 'VideoExample',
     components: {VideoBelowContent, CustomVideoPlayer},
+
     data() {
         return {
-            video: {
-                id: this.$route.params.id,
-                title: '',
-                description: '',
-                author: '',
-                likes: 0,
-                dislikes: 0,
-                views: 0,
-                like: null,
-                stop_timecode: null,
-            },
             ready: false,
             videoOptions: {
                 sources: [
@@ -47,41 +38,37 @@ export default {
             },
         };
     },
+    computed: {
+        ...mapState({
+            link: state => state.video.video.link,
+        })
+    },
     methods: {
-        async getVideoLink() {
-            this.$errorHandler(async () => {
-                return await this.$api.video.getVideoLink({
-                    id: this.video.id
-                })
-            }).then(value => {
-                if (value && value.code) {
-                    console.log('error')
-                } else {
-                    this.videoOptions.sources[0].src = value
-                    this.ready = true
-                    console.log('success')
-                }
-            })
-        },
-        async getVideo() {
-            this.$errorHandler(async () => {
-                return await this.$api.video.getVideo({
-                    id: this.video.id
-                })
-            }).then(value => {
-                if (value && value.code) {
-                    console.log('error')
-                } else {
-                    this.video = value
-                    console.log('success')
-                }
-            })
-        },
+        ...mapActions({
+            fetchVideo: "video/fetchVideo",
+            fetchVideoLink: "video/fetchLink",
+        }),
     },
 
     mounted() {
-        this.getVideo()
-        this.getVideoLink()
+        console.log('video')
+        this.fetchVideo({
+            id: this.$route.params.id
+        }).then(value => {
+            if (value && value.code) {
+                console.log('error')
+            }
+        })
+        this.fetchVideoLink({
+            id: this.$route.params.id
+        }).then(value => {
+            if (value && value.code) {
+                console.log('error')
+            } else {
+                this.videoOptions.sources[0].src = this.link
+                this.ready = true
+            }
+        })
     }
-};
+}
 </script>

@@ -31,7 +31,7 @@ export default {
         },
         async rate() {
             this.$errorHandler(async () => {
-                return await this.$api.video.rate({
+                return await this.$api.like.rate({
                     status: false,
                     video_id: this.video.id
                 })
@@ -47,7 +47,7 @@ export default {
         },
         async removeRating() {
             this.$errorHandler(async () => {
-                return await this.$api.video.removeRating({
+                return await this.$api.like.removeRating({
                     id: this.video.id,
                 })
             }).then(value => {

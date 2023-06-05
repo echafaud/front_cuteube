@@ -1,33 +1,7 @@
 <template>
-    <v-menu v-if="!userActive"
-            :location="location"
-    >
-        <template v-slot:activator="{ props }">
-            <v-btn
-                    v-bind="props"
-            >
-                Подписаться
-            </v-btn>
-        </template>
-        <v-card>
-            <v-card-title class="text-h5">
-                Хотите подписаться на этот канал?
-            </v-card-title>
-            <v-card-text>Тогда войдите в аккаунт.
-            </v-card-text>
-            <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn
-                        color="success"
-                        variant="outlined"
-                        @click="this.$router.push('/login')">
-                    Войти
-                </v-btn>
-            </v-card-actions>
-        </v-card>
-    </v-menu>
+    <login-modal v-if="!userActive" text="Хотите подписаться на этот канал?" btn-text="Подписаться" variant="elevated"></login-modal>
     <v-container v-else>
-        <v-btn v-if="!isSubscribe"
+        <v-btn v-if="!author.isSubscribed"
                @click="subscribe">
             Подписаться
         </v-btn>
@@ -39,35 +13,38 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
+import {mapMutations, mapState} from "vuex";
+import LoginModal from "@/components/LoginModal.vue";
 
 export default {
+    components: {LoginModal},
     computed: {
         ...mapState({
-            userActive: state => state.authUser.user.isActive
+            userActive: state => state.authUser.user.isActive,
+            author: state => state.video.author
         }),
-    },
-    props: {
-        id: String,
-        isSubscriber: Boolean
     },
     data() {
         return {
             location: 'bottom',
-            isSubscribe: this.isSubscribe
         }
     },
     methods: {
+        ...mapMutations({
+            setSubscription: "video/setSubscription",
+            setSubscribers: "video/setSubscribers"
+        }),
         async subscribe() {
             this.$errorHandler(async () => {
                 return await this.$api.user.subscribe({
-                    id: this.id
+                    id: this.author.id
                 })
             }).then(value => {
                 if (value && value.code) {
                     console.log('error')
                 } else {
-                    this.isSubscribe = true
+                    this.setSubscription(true)
+                    this.setSubscribers(this.author.subscribers + 1)
                     console.log('success')
                 }
             })
@@ -75,13 +52,14 @@ export default {
         async unsubscribe() {
             this.$errorHandler(async () => {
                 return await this.$api.user.unsubscribe({
-                    id: this.id
+                    id: this.author.id
                 })
             }).then(value => {
                 if (value && value.code) {
                     console.log('error')
                 } else {
-                    this.isSubscribe = false
+                    this.setSubscription(false)
+                    this.setSubscribers(this.author.subscribers - 1)
                     console.log('success')
                 }
             })

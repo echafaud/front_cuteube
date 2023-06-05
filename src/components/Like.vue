@@ -1,72 +1,43 @@
 <template>
-    <v-btn icon="mdi-thumb-up" variant="text" @click="like">
+    <login-modal v-if="!userActive" :text="status ? 'Понравилось видео?':'Не понравилось видео?'" variant="plain"
+                 :icon="icon"></login-modal>
+    <v-btn v-else :icon="icon" variant="text" @click="rate">
         <template v-slot>
             <v-icon :color="likeColor"></v-icon>
         </template>
     </v-btn>
-    <span>{{ video.likes }}</span>
+    <span>{{ status ? video.likes : video.dislikes }}</span>
 </template>
 
 <script>
 
+import LoginModal from "@/components/LoginModal.vue";
+import {mapActions, mapState} from "vuex";
+
 export default {
+    components: {LoginModal},
     props: {
-        video: null
-    },
-    emits: {
-        clickLike: null,
-    },
-    data() {
-        return {
-            isLiked: this.video.like
-        }
+        status: Boolean,
+        color: String,
+        icon: String
     },
     methods: {
-        like() {
-            if (!this.video.like) {
-                this.rate()
-            } else {
-                this.removeRating()
-            }
-
-        },
-        async rate() {
-            this.$errorHandler(async () => {
-                return await this.$api.video.rate({
-                    status: true,
-                    video_id: this.video.id
-                })
-            }).then(value => {
-                if (value && value.code) {
-                    console.log('error')
-                } else {
-                    this.isLiked = true
-                    this.$emit('clickLike', this.isLiked)
-                    console.log('success')
-                }
-            })
-        },
-        async removeRating() {
-            this.$errorHandler(async () => {
-                return await this.$api.video.removeRating({
-                    id: this.video.id,
-                })
-            }).then(value => {
-                if (value && value.code) {
-                    console.log('error')
-                } else {
-                    this.isLiked = false
-                    this.$emit('clickLike', this.isLiked)
-                    console.log('success')
-                }
-            })
+        ...mapActions({
+            putRating: "video/rate"
+        }),
+        rate() {
+            const status = this.video.like !== this.status ? this.status : null
+            this.putRating({status: status, video_id: this.video.id})
         },
     },
     computed: {
         likeColor() {
-            const curr_rate = this.video.like
-            return curr_rate ? "success" : "grey-lighten-2"
+            return this.video.like === this.status ? this.color : "grey-lighten-2"
         },
+        ...mapState({
+            userActive: state => state.authUser.user.isActive,
+            video: state => state.video.video
+        }),
     }
 }
 </script>

@@ -110,17 +110,25 @@ export default {
             this.login()
         },
         async login() {
-            this.$errorHandler(async () => {
-                return await this.$api.auth.login(this.formData)
-            }).then(value => {
+            this.userLogin(this.formData).then(value => {
                 if (value && value.code) {
                     this.badCredentials = true
                     this.loading = false
                 } else {
-                    this.userLogin(value)
                     this.$router.push('/')
                 }
             })
+            // this.$errorHandler(async () => {
+            //     return await this.$api.auth.login(this.formData)
+            // }).then(value => {
+            //     if (value && value.code) {
+            //         this.badCredentials = true
+            //         this.loading = false
+            //     } else {
+            //         this.userLogin(value)
+            //         this.$router.push('/')
+            //     }
+            // })
         },
     },
     watch: {

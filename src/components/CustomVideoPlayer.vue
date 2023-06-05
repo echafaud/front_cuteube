@@ -1,24 +1,33 @@
 <template>
-    <video-player
-            class="video-js vjs-16-9"
-            :sources="videoOptions.sources"
-            @mounted="handleMounted"
-            @play="handlePlayEvent($event)"
-            @pause="handlePauseEvent($event)"
-            controls/>
+    <v-row>
+        <v-col cols="12">
+            <video-player
+                    class="video-js vjs-16-9"
+                    :sources="videoOptions.sources"
+                    @mounted="handleMounted"
+                    @play="handlePlayEvent($event)"
+                    @pause="handlePauseEvent($event)"
+                    controls/>
+        </v-col>
+    </v-row>
 </template>
 
 <script>
 
 import {VideoPlayer} from "@videojs-player/vue";
 import 'video.js/dist/video-js.css'
+import {mapState} from "vuex";
 
 export default {
     name: 'CustomVideoPlayer',
     components: {VideoPlayer},
     props: {
-        video: null,
         videoOptions: null
+    },
+    computed: {
+        ...mapState({
+            video: state => state.video.video
+        })
     },
     data() {
         return {
@@ -75,7 +84,7 @@ export default {
         },
         handleMounted(payload) {
             this.player = payload
-            this.player.player.currentTime(this.video.stop_timecode)
+            this.player.player.currentTime(this.video.stopTimecode)
         }
     }
 
