@@ -1,5 +1,6 @@
 import errorHandler from "@/functions/errorHandler";
 import {api} from "@/api/api";
+import router from "@/router/router";
 
 export const video = {
     namespaced: true,
@@ -14,7 +15,8 @@ export const video = {
             views: null,
             like: null,
             link: null,
-            stopTimecode: null
+            previewLink: null,
+            stopTimecode: null,
         },
         author: {
             id: null,
@@ -30,6 +32,9 @@ export const video = {
     mutations: {
         setStopTimecode(state, stopTimecode) {
             state.video.stopTimecode = stopTimecode
+        },
+        setPreviewLink(state, link) {
+            state.video.previewLink = link
         },
         setLike(state, status) {
             state.video.like = status
@@ -105,6 +110,20 @@ export const video = {
                     return value
                 } else {
                     commit('setVideoLink', value)
+                    return value
+                }
+            })
+        },
+        async fetchPreviewLink({commit, state}, id) {
+            return errorHandler(async () => {
+                return await api.video.getPreviewLink(id)
+            }).then(value => {
+                if (value && value.code) {
+                    return value
+                } else {
+                    if (router.currentRoute._value.params.id === id.id) {
+                        commit('setPreviewLink', value)
+                    }
                     return value
                 }
             })

@@ -1,8 +1,8 @@
 <template>
     <v-app>
         <navigation-bar></navigation-bar>
-        <v-main>
-            <v-container>
+        <v-main class="pt-8">
+            <v-container fluid>
                 <router-view v-slot="{ Component }">
                     <transition name="fade">
                         <component :is="Component">

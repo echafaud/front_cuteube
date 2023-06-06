@@ -31,15 +31,19 @@ export default {
             video: state => state.video.video
         }),
     },
-    mounted() {
-        this.fetchComments({id: this.$route.params.id}).then(value => {
-            if (value && value.code) {
-                console.log('error')
-            } else {
-                this.ready = true
-                console.log('success')
-            }
-        })
+    created() {
+        this.$watch(
+            () => this.$route.params,
+            () => {
+                this.fetchComments({id: this.$route.params.id}).then(value => {
+                    if (value && value.code) {
+                        console.log('error')
+                    } else {
+                        this.ready = true
+                        console.log('success')
+                    }
+                })
+            }, {immediate: true})
     }
 }
 </script>

@@ -4,6 +4,7 @@
             <video-player
                     class="video-js vjs-16-9"
                     :sources="videoOptions.sources"
+                    :poster="previewLink"
                     @mounted="handleMounted"
                     @play="handlePlayEvent($event)"
                     @pause="handlePauseEvent($event)"
@@ -16,13 +17,14 @@
 
 import {VideoPlayer} from "@videojs-player/vue";
 import 'video.js/dist/video-js.css'
-import {mapState} from "vuex";
+import {mapActions, mapMutations, mapState} from "vuex";
 
 export default {
     name: 'CustomVideoPlayer',
     components: {VideoPlayer},
     props: {
-        videoOptions: null
+        videoOptions: null,
+        previewLink: null
     },
     computed: {
         ...mapState({
@@ -42,9 +44,11 @@ export default {
             player: null
         }
     },
-    mounted() {
-    },
     methods: {
+        ...mapMutations({
+            setStopTimecode: "video/setStopTimecode",
+
+        }),
         startStopWatch() {
             if (this.stopWatch.running) return
 
@@ -70,6 +74,8 @@ export default {
             this.stopWatch.stoppedDuration = 0
             this.stopWatch.timeBegan = null
             this.stopWatch.timeStopped = null
+            this.stopWatch.started = null
+            this.stopWatch.currentTime = 0
         },
         clockRunning() {
             const timeElapsed = new Date(new Date() - this.stopWatch.timeBegan - this.stopWatch.stoppedDuration)
@@ -85,8 +91,36 @@ export default {
         handleMounted(payload) {
             this.player = payload
             this.player.player.currentTime(this.video.stopTimecode)
+        },
+        recordView() {
+            let currentTime = this.player.player.currentTime()
+            currentTime = currentTime ? currentTime : this.stopWatch.currentTime
+            this.$errorHandler(async () => {
+                return await this.$api.video.recordView({
+                    video_id: this.video.id,
+                    stop_timecode: currentTime,
+                    viewing_time: this.stopWatch.currentTime
+                })
+            }).then(value => {
+                if (value && value.code) {
+                    console.log('error')
+                } else {
+                    console.log('success')
+                }
+            })
+        }
+    },
+    updated() {
+        if (this.stopWatch.currentTime > 0) {
+            this.recordView()
+            this.resetStopWatch()
+
+        }
+    },
+    beforeUnmount() {
+        if (this.stopWatch.currentTime > 0) {
+            this.recordView()
         }
     }
-
 }
 </script>

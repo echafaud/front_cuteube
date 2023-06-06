@@ -2,10 +2,13 @@
     <v-row>
         <v-col v-if="ready" cols="9">
 
-            <custom-video-player :video-options="videoOptions"></custom-video-player>
+            <custom-video-player :video-options="videoOptions" :previewLink="previewLink"></custom-video-player>
             <!--            <video-player v-if="play" :options="videoOptions"/>-->
             <video-below-content></video-below-content>
 
+        </v-col>
+        <v-col cols="3">
+            <list-mini-video></list-mini-video>
         </v-col>
     </v-row>
 
@@ -20,10 +23,12 @@ import {mapActions, mapState} from "vuex";
 import SubscribeButton from "@/components/SubscribeButton.vue";
 import CustomVideoPlayer from "@/components/CustomVideoPlayer.vue";
 import VideoBelowContent from "@/components/VideoBelowContent.vue";
+import MiniVideo from "@/components/MiniVideo.vue";
+import ListMiniVideo from "@/components/ListMiniVideo.vue";
 
 export default {
     name: 'VideoExample',
-    components: {VideoBelowContent, CustomVideoPlayer},
+    components: {ListMiniVideo, MiniVideo, VideoBelowContent, CustomVideoPlayer},
 
     data() {
         return {
@@ -41,34 +46,46 @@ export default {
     computed: {
         ...mapState({
             link: state => state.video.video.link,
+            previewLink: state => state.video.video.previewLink
         })
     },
     methods: {
         ...mapActions({
             fetchVideo: "video/fetchVideo",
             fetchVideoLink: "video/fetchLink",
+            fetchPreviewLink: "video/fetchPreviewLink"
         }),
     },
-
-    mounted() {
-        console.log('video')
-        this.fetchVideo({
-            id: this.$route.params.id
-        }).then(value => {
-            if (value && value.code) {
-                console.log('error')
-            }
-        })
-        this.fetchVideoLink({
-            id: this.$route.params.id
-        }).then(value => {
-            if (value && value.code) {
-                console.log('error')
-            } else {
-                this.videoOptions.sources[0].src = this.link
-                this.ready = true
-            }
-        })
-    }
+    created() {
+        this.$watch(
+            () => this.$route.params,
+            () => {
+                this.fetchVideo({
+                    id: this.$route.params.id
+                }).then(value => {
+                    if (value && value.code) {
+                        console.log('error')
+                    }
+                })
+                this.fetchVideoLink({
+                    id: this.$route.params.id
+                }).then(value => {
+                    if (value && value.code) {
+                        console.log('error')
+                    } else {
+                        this.videoOptions.sources[0].src = this.link
+                    }
+                })
+                this.fetchPreviewLink({
+                    id: this.$route.params.id
+                }).then(value => {
+                    if (value && value.code) {
+                        console.log('error')
+                    } else {
+                        this.ready = true
+                    }
+                })
+            }, {immediate: true})
+    },
 }
 </script>
