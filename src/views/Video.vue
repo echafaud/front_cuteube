@@ -1,11 +1,11 @@
 <template>
-    <v-row>
-        <v-col v-if="ready" cols="9">
+    <v-row v-if="currentLink && !loading">
+        <v-col cols="9">
 
-            <custom-video-player :video-options="videoOptions" :previewLink="previewLink"></custom-video-player>
+            <custom-video-player v-if="videoOptions.sources[0].src" :video-options="videoOptions"
+                                 :previewLink="currentPreviewLink"></custom-video-player>
             <!--            <video-player v-if="play" :options="videoOptions"/>-->
             <video-below-content></video-below-content>
-
         </v-col>
         <v-col cols="3">
             <list-mini-video></list-mini-video>
@@ -27,12 +27,11 @@ import MiniVideo from "@/components/MiniVideo.vue";
 import ListMiniVideo from "@/components/ListMiniVideo.vue";
 
 export default {
-    name: 'VideoExample',
     components: {ListMiniVideo, MiniVideo, VideoBelowContent, CustomVideoPlayer},
 
     data() {
         return {
-            ready: false,
+            loading: true,
             videoOptions: {
                 sources: [
                     {
@@ -45,8 +44,8 @@ export default {
     },
     computed: {
         ...mapState({
-            link: state => state.video.video.link,
-            previewLink: state => state.video.video.previewLink
+            currentLink: state => state.video.video.link,
+            currentPreviewLink: state => state.video.video.previewLink
         })
     },
     methods: {
@@ -60,6 +59,7 @@ export default {
         this.$watch(
             () => this.$route.params,
             () => {
+                this.loading = true
                 this.fetchVideo({
                     id: this.$route.params.id
                 }).then(value => {
@@ -73,7 +73,7 @@ export default {
                     if (value && value.code) {
                         console.log('error')
                     } else {
-                        this.videoOptions.sources[0].src = this.link
+                        this.videoOptions.sources[0].src = this.currentLink
                     }
                 })
                 this.fetchPreviewLink({
@@ -82,7 +82,7 @@ export default {
                     if (value && value.code) {
                         console.log('error')
                     } else {
-                        this.ready = true
+                        this.loading = false
                     }
                 })
             }, {immediate: true})

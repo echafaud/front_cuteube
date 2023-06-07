@@ -1,5 +1,5 @@
 <template>
-    <v-card v-if="user && previewLink" @click="$router.push({ path: `/video/${video.id}` })" class="mb-3"
+    <v-card v-if="user && miniPreviewLink" @click="$router.push({ path: `/video/${video.id}` })" class="mb-3"
             height="160">
         <v-row>
             <v-col cols="6" class="pr-0">
@@ -8,7 +8,7 @@
                         aspect-ratio="16/9"
                         cover
                         height="160"
-                        :src="previewLink"
+                        :src="miniPreviewLink"
                 ></v-img>
 
             </v-col>
@@ -31,7 +31,7 @@ export default {
     data() {
         return {
             user: null,
-            previewLink: ''
+            miniPreviewLink: ''
         }
     },
     methods: {
@@ -59,7 +59,7 @@ export default {
             if (value && value.code) {
                 console.log('error')
             } else {
-                this.previewLink = value
+                this.miniPreviewLink = value
             }
         })
     }

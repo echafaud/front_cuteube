@@ -1,13 +1,13 @@
 <template>
     <v-row>
         <v-col cols="12" class="pt-0">
-            <v-card-title class="text-h5 pa-0">{{ video.title }}</v-card-title>
+            <v-card-title class="text-h5 pa-0">{{ currentVideo.title }}</v-card-title>
         </v-col>
         <video-bar class="pt-0"></video-bar>
         <v-col class="pt-0" cols="12">
             <v-card>
-                <v-card-subtitle>Просмотров: {{ video.views }}</v-card-subtitle>
-                <v-card-text>{{ video.description }}</v-card-text>
+                <v-card-subtitle>Просмотров: {{ currentVideo.views }}</v-card-subtitle>
+                <v-card-text>{{ currentVideo.description }}</v-card-text>
             </v-card>
         </v-col>
         <v-col class="pt-0" cols="12">
@@ -27,7 +27,7 @@ export default {
     components: {Comments, CommentInput, VideoBar, SubscribeButton},
     computed: {
         ...mapState({
-            video: state => state.video.video
+            currentVideo: state => state.video.video
         })
     },
 }

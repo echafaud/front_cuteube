@@ -18,9 +18,26 @@
 import {defineComponent} from "vue";
 import WrapperAuthForm from "@/components/WrapperAuthForm.vue";
 import NavigationBar from "@/components/NavigationBar.vue";
+import {fpjsGetVisitorDataExtendedMixin} from "@fingerprintjs/fingerprintjs-pro-vue-v3";
 
 export default defineComponent({
-    components: {NavigationBar, WrapperAuthForm}
+    components: {NavigationBar, WrapperAuthForm},
+    mixins: [fpjsGetVisitorDataExtendedMixin],
+    watch: {
+        'visitorDataExtended.data': {
+            deep: true,
+            handler(data) {
+            },
+        },
+    },
+    methods: {
+        getData() {
+            return this.$getVisitorDataExtended?.();
+        },
+    },
+    mounted() {
+        this.getData()
+    }
 })
 </script>
 <style>

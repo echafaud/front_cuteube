@@ -1,5 +1,5 @@
 <template>
-    <v-list v-if="ready" bg-color="transparent" lines="false" class="pt-0">
+    <v-list v-if="videos" bg-color="transparent" lines="false" class="pt-0">
         <mini-video v-for="video in videos"
                     :video="video"
                     :key="video.id"
@@ -12,13 +12,18 @@
 import MiniVideo from "@/components/MiniVideo.vue";
 import errorHandler from "@/functions/errorHandler";
 import {api} from "@/api/api";
+import {mapState} from "vuex";
 
 export default {
     components: {MiniVideo},
+    computed: {
+        ...mapState({
+            videoId: state => state.video.video.id,
+        })
+    },
     data() {
         return {
-            videos: null,
-            ready: false
+            videos: null
         }
     },
     methods: {
@@ -29,8 +34,7 @@ export default {
                 if (value && value.code) {
                     console.log('error')
                 } else {
-                    this.videos=value
-                    this.ready = true
+                    this.videos = value.filter(miniVideo => miniVideo.id !== this.videoId)
                     console.log('success')
                 }
             })
@@ -41,7 +45,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

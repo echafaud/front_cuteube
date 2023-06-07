@@ -8,6 +8,7 @@ import api from '@/plugins/api'
 import errorHandler from "@/plugins/errorHandler";
 import VueVideoPlayer from '@videojs-player/vue'
 import 'video.js/dist/video-js.css'
+import fpjsPlugin from "@fingerprintjs/fingerprintjs-pro-vue-v3";
 
 loadFonts()
 const app = createApp(App)
@@ -18,4 +19,10 @@ app
     .use(api)
     .use(errorHandler)
     .use(VueVideoPlayer)
+    .use(fpjsPlugin, {
+        loadOptions: {
+            apiKey: "YZhnEbAWONLYw54Q6Rcy",
+            region: "eu"
+        },
+    })
     .mount('#app')

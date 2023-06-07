@@ -4,10 +4,11 @@
             <video-player
                     class="video-js vjs-16-9"
                     :sources="videoOptions.sources"
-                    :poster="previewLink"
+                    :poster="video.previewLink"
                     @mounted="handleMounted"
                     @play="handlePlayEvent($event)"
                     @pause="handlePauseEvent($event)"
+                    @ready="this.player.video.currentTime = video.stopTimecode"
                     controls/>
         </v-col>
     </v-row>
@@ -18,19 +19,30 @@
 import {VideoPlayer} from "@videojs-player/vue";
 import 'video.js/dist/video-js.css'
 import {mapActions, mapMutations, mapState} from "vuex";
+import {fpjsGetVisitorDataExtendedMixin} from "@fingerprintjs/fingerprintjs-pro-vue-v3";
 
 export default {
-    name: 'CustomVideoPlayer',
     components: {VideoPlayer},
     props: {
         videoOptions: null,
-        previewLink: null
     },
     computed: {
         ...mapState({
             video: state => state.video.video
         })
     },
+    watch: {
+        'visitorDataExtended.data': {
+            deep: true,
+            handler(data) {
+                if (data) {
+                    this.visitorId = data.visitorId
+                }
+            },
+        },
+    },
+    mixins: [fpjsGetVisitorDataExtendedMixin],
+
     data() {
         return {
             stopWatch: {
@@ -41,13 +53,13 @@ export default {
                 running: false,
                 currentTime: null
             },
-            player: null
+            player: null,
+            visitorId: ''
         }
     },
     methods: {
         ...mapMutations({
             setStopTimecode: "video/setStopTimecode",
-
         }),
         startStopWatch() {
             if (this.stopWatch.running) return
@@ -90,16 +102,14 @@ export default {
         },
         handleMounted(payload) {
             this.player = payload
-            this.player.player.currentTime(this.video.stopTimecode)
         },
         recordView() {
-            let currentTime = this.player.player.currentTime()
-            currentTime = currentTime ? currentTime : this.stopWatch.currentTime
             this.$errorHandler(async () => {
                 return await this.$api.video.recordView({
                     video_id: this.video.id,
-                    stop_timecode: currentTime,
-                    viewing_time: this.stopWatch.currentTime
+                    stop_timecode: this.player.state.currentTime,
+                    viewing_time: this.stopWatch.currentTime,
+                    fingerprint: this.visitorId
                 })
             }).then(value => {
                 if (value && value.code) {
@@ -108,19 +118,29 @@ export default {
                     console.log('success')
                 }
             })
+        },
+        getData() {
+            return this.$getVisitorDataExtended?.();
+        },
+        unload(event) {
+            if (this.stopWatch.currentTime > 0) {
+                this.recordView()
+                this.resetStopWatch()
+            }
         }
     },
-    updated() {
-        if (this.stopWatch.currentTime > 0) {
-            this.recordView()
-            this.resetStopWatch()
-
-        }
+    created() {
+        window.addEventListener('beforeunload', this.unload)
+    },
+    mounted() {
+        this.getData()
     },
     beforeUnmount() {
         if (this.stopWatch.currentTime > 0) {
             this.recordView()
+            this.resetStopWatch()
         }
+        window.removeEventListener('beforeunload', this.unload)
     }
 }
 </script>
