@@ -1,6 +1,6 @@
 <template>
     <login-modal v-if="!userActive" text="Хотите подписаться на этот канал?" btn-text="Подписаться" variant="elevated"></login-modal>
-    <v-container v-else>
+    <div v-else>
         <v-btn v-if="!author.isSubscribed"
                @click="subscribe">
             Подписаться
@@ -9,7 +9,7 @@
                @click="unsubscribe">
             Отписаться
         </v-btn>
-    </v-container>
+    </div>
 </template>
 
 <script>
@@ -21,8 +21,11 @@ export default {
     computed: {
         ...mapState({
             userActive: state => state.authUser.user.isActive,
-            author: state => state.video.author
+            // author: state => state.video.author
         }),
+    },
+    props:{
+        author: null
     },
     data() {
         return {

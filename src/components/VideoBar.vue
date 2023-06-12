@@ -15,7 +15,7 @@
                     <v-list-item-subtitle>Подписчиков: {{ author.subscribers }}</v-list-item-subtitle>
                 </v-col>
                 <v-col cols="auto">
-                    <subscribe-button v-if="author.id!==userId"></subscribe-button>
+                    <subscribe-button v-if="author.id!==userId" :author="author"></subscribe-button>
                 </v-col>
             </v-row>
 

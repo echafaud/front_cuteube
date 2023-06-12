@@ -6,16 +6,18 @@
             bg-color="transparent"
             mandatory
             @update:selected="updateValue">
-        <v-list-item rounded class="mr-2" :value="1">Популярное</v-list-item>
-        <v-list-item rounded class="mr-2" :value="2">Недавнее</v-list-item>
-        <v-list-item rounded class="mr-2" :value="3">Понравившиеся пользователям</v-list-item>
+        <v-list-item v-for="item in items" :value="item.value" rounded class="mr-2">{{ item.text }}</v-list-item>
+<!--        <v-list-item rounded class="mr-2" :value="1">Популярное</v-list-item>-->
+<!--        <v-list-item rounded class="mr-2" :value="2">Недавнее</v-list-item>-->
+<!--        <v-list-item rounded class="mr-2" :value="3">Понравившиеся пользователям</v-list-item>-->
     </v-list>
 </template>
 
 <script>
 export default {
     props: {
-        modelValue: Array
+        modelValue: Array,
+        items: Array
     },
     methods: {
         updateValue(event) {

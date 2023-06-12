@@ -1,7 +1,7 @@
 <template>
     <v-row>
         <v-col cols="12">
-            <main-bar v-model="currentTab"></main-bar>
+            <main-bar v-model="currentTab" :items="barItems"></main-bar>
         </v-col>
         <v-row>
             <v-col cols="12">
@@ -9,7 +9,6 @@
             </v-col>
         </v-row>
     </v-row>
-
 </template>
 
 <script>
@@ -24,7 +23,12 @@ export default defineComponent({
     data() {
         return {
             currentTab: null,
-            videos: null
+            videos: null,
+            barItems: [
+                {text: "Популярное", value: 1},
+                {text: "Недавнее", value: 2},
+                {text: "Понравившиеся пользователям", value: 3}
+            ]
         }
     },
     watch: {

@@ -167,9 +167,13 @@ export default {
                         minLen: minLen(2),
                         maxLen: maxLen(32),
                         usernameContains,
-                        validData: validData(!this.userExist, "Такой никнейм уже существует"),
+                        validData: validData(!this.userExist, "Такой никнейм или почта уже существуют"),
                     },
-                    email: {required, email},
+                    email: {
+                        required,
+                        email,
+                        validData: validData(!this.userExist, "Такой никнейм или почта уже существуют")
+                    },
                     password: {
                         main: {
                             required,

@@ -12,7 +12,7 @@
 
             <!--            <v-btn class="mr-4" variant="text" icon="mdi-video-plus"></v-btn>-->
             <upload-video></upload-video>
-            <avatar-navigation></avatar-navigation>
+            <avatar-navigation class="pr-4"></avatar-navigation>
 
             <!--        <v-btn variant="text" icon="mdi-dots-vertical"></v-btn>-->
         </v-app-bar>
