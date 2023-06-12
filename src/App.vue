@@ -2,7 +2,7 @@
     <v-app>
         <navigation-bar></navigation-bar>
         <v-main class="pt-8">
-            <v-container fluid>
+            <v-container fluid class="h-100">
                 <router-view v-slot="{ Component }">
                     <transition name="fade">
                         <component :is="Component">

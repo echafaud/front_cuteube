@@ -157,15 +157,15 @@ export default {
                 userCreate: {
                     name: {
                         required,
-                        minLen: minLen(3),
-                        maxLen: maxLen(32),
+                        minLen: minLen(2),
+                        maxLen: maxLen(64),
                         nameContains,
 
                     },
                     username: {
                         required,
-                        minLen: minLen(3),
-                        maxLen: maxLen(24),
+                        minLen: minLen(2),
+                        maxLen: maxLen(32),
                         usernameContains,
                         validData: validData(!this.userExist, "Такой никнейм уже существует"),
                     },
@@ -174,7 +174,6 @@ export default {
                         main: {
                             required,
                             minLen: minLen(8),
-                            maxLen: maxLen(320),
                             lowerCaseContains,
                             upperCaseContains,
                             numContains,

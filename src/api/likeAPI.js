@@ -5,7 +5,7 @@ export default function (instance, baseDataConfig) {
             newPayload.method = 'rate'
             const like = {'like': payload}
             newPayload.params = JSON.parse(JSON.stringify(like))
-            return instance.post('rate', newPayload)
+            return instance.post('like/rate', newPayload)
         },
         removeRating(payload) {
             const newPayload = structuredClone(baseDataConfig)

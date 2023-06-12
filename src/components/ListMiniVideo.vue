@@ -29,7 +29,7 @@ export default {
     methods: {
         async fetchVideos() {
             this.$errorHandler(async () => {
-                return await this.$api.video.getLatestVideos({limit: 10})
+                return await this.$api.video.getLatestVideos({limit: 10, pagination: 0})
             }).then(value => {
                 if (value && value.code) {
                     console.log('error')

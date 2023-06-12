@@ -2,7 +2,7 @@ import axios from "axios";
 import {accessInterceptor} from "@/functions/interceptors";
 
 const baseConfig = {
-    baseURL: 'http://localhost:8000/api/v1/jsonrpc/',
+    baseURL: 'http://localhost:8000/api/v1/',
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json'

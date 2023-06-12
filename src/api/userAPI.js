@@ -4,20 +4,20 @@ export default function (instance, baseDataConfig) {
             const newPayload = structuredClone(baseDataConfig)
             newPayload.method = 'get_user'
             newPayload.params = JSON.parse(JSON.stringify(payload))
-            return instance.post('get_user', newPayload)
+            return instance.post('user/get_user', newPayload)
         },
         subscribe(payload) {
             const newPayload = structuredClone(baseDataConfig)
             newPayload.method = 'subscribe'
             newPayload.params = JSON.parse(JSON.stringify(payload))
             console.log(instance.interceptors)
-            return instance.post('subscribe', newPayload)
+            return instance.post('subscription/subscribe', newPayload)
         },
         unsubscribe(payload) {
             const newPayload = structuredClone(baseDataConfig)
             newPayload.method = 'unsubscribe'
             newPayload.params = JSON.parse(JSON.stringify(payload))
-            return instance.post('unsubscribe', newPayload)
+            return instance.post('subscription/unsubscribe', newPayload)
         },
     }
 }

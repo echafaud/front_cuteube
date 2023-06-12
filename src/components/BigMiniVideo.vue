@@ -1,8 +1,7 @@
 <template>
-    <v-card v-if="user && miniPreviewLink" @click="$router.push({ path: `/video/${video.id}` })" class="mb-3"
-            height="h-100">
+    <v-card v-if="user && miniPreviewLink" @click="$router.push({ path: `/video/${video.id}` })" class="mb-3 h-100">
         <v-row>
-            <v-col cols="6" class="pr-0">
+            <v-col cols="12" class="pr-0">
                 <v-img
                         class="h-100"
                         aspect-ratio="16/9"
@@ -12,8 +11,8 @@
                 ></v-img>
 
             </v-col>
-            <v-col cols="6" class="pl-0">
-                <v-card-title>{{ video.title }}</v-card-title>
+            <v-col cols="12" class="pl-0 pt-0">
+                <v-card-title class="pt-0">{{ video.title }}</v-card-title>
                 <v-card-subtitle>{{ user.username }}</v-card-subtitle>
                 <v-card-subtitle>Просмотров: {{ video.views }}</v-card-subtitle>
             </v-col>

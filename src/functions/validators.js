@@ -40,7 +40,7 @@ const usernameContains = {
     $message: 'Поле может содержать только буквы латиницы, цифры и символ "_"',
 }
 const passwordContains = {
-    $validator: helpers.regex(/^[A-Za-z0-9.,;?!+@#$%^&*"'<>{}()|`~/_=\\\-]*$/),
+    $validator: helpers.regex(/^[A-Za-z0-9.,;?!+@#$%^&*"'\[\]<>{}()|`~/_=\\\-]*$/),
     $message: 'Поле может содержать только буквы латиницы, цифры и специальные символы',
 }
 
@@ -54,7 +54,7 @@ const lowerCaseContains = {
 }
 const specialContains = {
 
-    $validator: helpers.regex(/(?=.*[.,;?!+@#$%^&*"'<>{}()|`~/_=\\\-])/),
+    $validator: helpers.regex(/(?=.*[.,;?!+@#$%^&*"'<>{}()\[\]|`~/_=\\\-])/),
     $message: 'Поле должно содержать специальные символы',
 
 }
