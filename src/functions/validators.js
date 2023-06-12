@@ -62,6 +62,21 @@ const numContains = {
     $validator: helpers.regex(/(?=.*[0-9])/),
     $message: 'Поле должно содержать цифры',
 }
+const isImage = {
+    $validator: value => value[0].name.match(/[\/.](gif|jpg|jpeg|tiff|png)$/i),
+    $message: 'Поле должно быть картинкой',
+}
+const isVideo = {
+    $validator: value => value[0].name.match(/[\/.](mp4|mov|avi|mkv|flv)$/i),
+    $message: 'Поле должно быть видео',
+}
+const maxSize = (size) => {
+    return {
+        $validator: value => value[0].size <= size * (1024 * 1024),
+        $message: ({$params}) => `Максимальный размер файла ${$params.size}Мб.`,
+        $params: {size}
+    }
+}
 const validData = (data, errorMessage) => {
     return {
         $validator: () => data,
@@ -71,7 +86,7 @@ const validData = (data, errorMessage) => {
 }
 const sameAs = (equalTo) => {
     return {
-        $validator: value => value===equalTo,
+        $validator: value => value === equalTo,
         $message: 'Пароли должны совпадать',
         $params: {equalTo}
     }
@@ -82,6 +97,7 @@ export {
     maxLen,
     validData,
     sameAs,
+    maxSize,
     required,
     email,
     nameContains,
@@ -91,4 +107,6 @@ export {
     lowerCaseContains,
     specialContains,
     numContains,
+    isImage,
+    isVideo,
 }

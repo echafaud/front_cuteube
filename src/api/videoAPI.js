@@ -39,9 +39,21 @@ export default function (instance, baseDataConfig) {
         recordView(payload) {
             const newPayload = structuredClone(baseDataConfig)
             newPayload.method = 'record_view'
-            const view = {view:payload}
+            const view = {view: payload}
             newPayload.params = JSON.parse(JSON.stringify(view))
             return instance.post('view/record_view', newPayload)
         },
+        uploadVideo(payload) {
+            const newPayload = new FormData()
+            newPayload.append('title', payload.title)
+            newPayload.append('description', payload.description)
+            newPayload.append('preview_file', payload.preview_file[0])
+            newPayload.append('video_file', payload.video_file[0])
+            return instance.post('video/upload_video', newPayload, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+        }
     }
 }

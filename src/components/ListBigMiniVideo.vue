@@ -1,5 +1,5 @@
 <template>
-    <v-list v-if="videos" bg-color="transparent" lines="false" class="d-flex pt-0">
+    <v-list v-if="videos" bg-color="transparent" lines="false" class="d-flex pt-0 flex-wrap">
         <v-col cols="2" v-for="video in videos" class="pa-2">
             <big-mini-video
                     :video="video"

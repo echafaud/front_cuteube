@@ -7,7 +7,6 @@
             label="Комментарий"
             :error-messages="v$.comment.$errors.map(e => e.$message)"
             @blur="v$.comment.$touch"
-
     >
         <template v-slot:prepend>
             <v-avatar class="mt-n2"

@@ -1,9 +1,13 @@
 <template>
-    <v-row class="h-100">
+    <v-row>
         <v-col cols="12">
             <main-bar v-model="currentTab"></main-bar>
-            <list-big-mini-video v-if="currentTab" :videos="videos"></list-big-mini-video>
         </v-col>
+        <v-row>
+            <v-col cols="12">
+                <list-big-mini-video v-if="currentTab" :videos="videos"></list-big-mini-video>
+            </v-col>
+        </v-row>
     </v-row>
 
 </template>

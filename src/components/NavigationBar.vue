@@ -10,7 +10,8 @@
             <v-spacer></v-spacer>
             <v-btn variant="text" icon="mdi-magnify"></v-btn>
 
-            <v-btn class="mr-4" variant="text" icon="mdi-video-plus"></v-btn>
+            <!--            <v-btn class="mr-4" variant="text" icon="mdi-video-plus"></v-btn>-->
+            <upload-video></upload-video>
             <avatar-navigation></avatar-navigation>
 
             <!--        <v-btn variant="text" icon="mdi-dots-vertical"></v-btn>-->
@@ -33,9 +34,10 @@
 
 <script>
 import AvatarNavigation from "@/components/AvatarNavigation.vue";
+import UploadVideo from "@/components/UploadVideo.vue";
 
 export default {
-    components: {AvatarNavigation},
+    components: {AvatarNavigation, UploadVideo},
     data() {
         return {
             drawer: true,
