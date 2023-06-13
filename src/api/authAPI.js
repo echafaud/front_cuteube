@@ -1,5 +1,6 @@
 import {accessInterceptor} from "@/functions/interceptors";
 import {refreshInterceptor} from "@/functions/interceptors"
+
 export default function (instance, baseDataConfig) {
     return {
         login(payload) {
@@ -30,6 +31,18 @@ export default function (instance, baseDataConfig) {
             payload.params = {}
             payload.method = 'refresh'
             return instance.post('user/refresh', payload)
+        },
+        verify(payload) {
+            const newPayload = structuredClone(baseDataConfig)
+            newPayload.params = payload
+            newPayload.method = 'verify'
+            return instance.post('user/verify', newPayload)
+        },
+        updateVerify(payload) {
+            const newPayload = structuredClone(baseDataConfig)
+            newPayload.params = payload
+            newPayload.method = 'update_verify'
+            return instance.post('user/update_verify', newPayload)
         },
         logout() {
             const payload = structuredClone(baseDataConfig)

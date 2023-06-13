@@ -4,6 +4,7 @@ import Main from "@/views/Main.vue";
 import Video from "@/views/Video.vue";
 import {createRouter, createWebHistory} from "vue-router";
 import Profile from "@/views/Profile.vue";
+import Verify from "@/views/Verify.vue";
 
 
 const routes = [
@@ -12,6 +13,7 @@ const routes = [
     {path: '/register', component: Register},
     {path: '/video/:id', component: Video},
     {path: '/user/:id', component: Profile},
+    {path: '/verify/:id/:token', component: Verify},
 ]
 
 

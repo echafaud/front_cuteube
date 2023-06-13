@@ -39,6 +39,7 @@ export const authUser = {
         },
         setVerification(state, verification) {
             state.user.isVerified = verification
+            localStorage.setItem('user', JSON.stringify(state.user))
         },
         setAccessExpires(state, accessExpires) {
             state.user.accessExpires = accessExpires
@@ -95,6 +96,18 @@ export const authUser = {
                     return value
                 } else {
                     commit('deleteUser')
+                    return value
+                }
+            })
+        },
+        verify({commit}, payload){
+            return errorHandler(async () => {
+                return await api.auth.verify(payload)
+            }).then(value => {
+                if (value && value.code) {
+                    return value
+                } else {
+                    commit('setVerification', true)
                     return value
                 }
             })
