@@ -1,5 +1,10 @@
 <template>
-    <login-modal v-if="!userActive" text="Хотите опубликовать видео?" variant="plain"
+    <login-modal v-if="!user.isActive || !user.isVerified" titleText="Хотите опубликовать видео?"
+                 :main-text="!user.isActive ?'Тогда войдите в аккаунт.' : 'Тогда подтвердите почту.'"
+                 :bottom-btn-text="!user.isActive ?'Войти' : 'Подтвердить почту'"
+                 :disable="user.isActive"
+                 variant="plain"
+                 main-text="Тогда войдите в аккаунт."
                  icon="mdi-video-plus"></login-modal>
     <v-btn v-else variant="plain"
            @click="dialog=true"
@@ -212,7 +217,7 @@ export default {
     },
     computed: {
         ...mapState({
-            userActive: state => state.authUser.user.isActive
+            user: state => state.authUser.user
         }),
     },
 }

@@ -15,17 +15,18 @@
         </template>
         <v-card>
             <v-card-title class="text-h5">
-                {{ text }}
+                {{ titleText }}
             </v-card-title>
-            <v-card-text>Тогда войдите в аккаунт.
+            <v-card-text>{{ mainText }}
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
+                        v-if="!disable"
                         color="success"
                         variant="outlined"
                         @click="this.$router.push('/login')">
-                    Войти
+                    {{ bottomBtnText }}
                 </v-btn>
             </v-card-actions>
         </v-card>
@@ -35,8 +36,11 @@
 <script>
 export default {
     props: {
-        text: null,
+        titleText: null,
+        mainText: null,
         btnText: null,
+        bottomBtnText: null,
+        disable: null,
         icon: null,
         variant: null
     },

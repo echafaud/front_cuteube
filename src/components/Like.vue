@@ -1,5 +1,8 @@
 <template>
-    <login-modal v-if="!userActive" :text="status ? 'Понравилось видео?':'Не понравилось видео?'" variant="plain"
+    <login-modal v-if="!userActive" :titleText="status ? 'Понравилось видео?':'Не понравилось видео?'"
+                 main-text="Тогда войдите в аккаунт." variant="plain"
+                 bottom-btn-text = "Войти"
+                 :disable="false"
                  :icon="icon"></login-modal>
     <v-btn v-else :icon="icon" variant="text" @click="rate">
         <template v-slot>

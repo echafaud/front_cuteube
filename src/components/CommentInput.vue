@@ -21,7 +21,11 @@
                    :disabled="!comment || comment.length > maxLen"
                    @click="()=>$emit('update:edit', false)">
             </v-btn>
-            <login-modal v-if="!userActive" text="Хотите оставить комментарий?" variant="plain"
+            <login-modal v-if="!user.isActive || !user.isVerified" titleText="Хотите оставить комментарий?"
+                         :main-text="!user.isActive ?'Тогда войдите в аккаунт.' : 'Тогда подтвердите почту.'"
+                         :bottom-btn-text="!user.isActive ? 'Войти' : 'Подтвердить почту'"
+                         :disable="user.isActive"
+                         variant="plain"
                          icon="mdi-send"></login-modal>
             <v-btn v-else :icon="!edit ? 'mdi-send': 'mdi-check-bold'" class="mt-n3"
                    variant="plain"
@@ -52,7 +56,7 @@ export default {
     computed: {
         ...mapState({
             video: state => state.video.video,
-            userActive: state => state.authUser.user.isActive
+            user: state => state.authUser.user
         }),
     },
     data() {

@@ -1,5 +1,10 @@
 <template>
-    <login-modal v-if="!userActive" text="Хотите подписаться на этот канал?" btn-text="Подписаться" variant="elevated"></login-modal>
+    <login-modal v-if="!userActive" titleText="Хотите подписаться на этот канал?"
+                 btn-text="Подписаться" variant="elevated"
+                 main-text="Тогда войдите в аккаунт."
+                 bottom-btn-text="Войти"
+                 :disable="false"
+    ></login-modal>
     <div v-else>
         <v-btn v-if="!author.isSubscribed"
                @click="subscribe">
@@ -24,7 +29,7 @@ export default {
             // author: state => state.video.author
         }),
     },
-    props:{
+    props: {
         author: null
     },
     data() {
