@@ -59,6 +59,7 @@ export default function (instance, baseDataConfig) {
             const newPayload = new FormData()
             newPayload.append('title', payload.title)
             newPayload.append('description', payload.description)
+            newPayload.append('permission', payload.permission)
             newPayload.append('preview_file', payload.preview_file[0])
             newPayload.append('video_file', payload.video_file[0])
             return instance.post('video/upload_video', newPayload, {

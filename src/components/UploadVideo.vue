@@ -63,6 +63,21 @@
                                     >
                                 </v-file-input>
                             </v-col>
+                            <v-col cols="12" class="pt-0 pb-2">
+                                <v-autocomplete
+                                        v-model="formData.permission"
+                                        :items="states"
+                                        color="white"
+                                        item-title="name"
+                                        item-value="value"
+                                        label="Предоставить доступ"
+                                        variant="solo-filled"
+                                        :rules="[false]"
+                                        :error-messages="v$.formData.permission.$errors.map(e => e.$message)"
+                                        @blur="v$.formData.permission.$touch">
+                                    >
+                                </v-autocomplete>
+                            </v-col>
                         </v-row>
                     </v-card-text>
                     <v-card-actions class="pl-4 pr-4">
@@ -119,12 +134,16 @@ export default {
                 title: '',
                 description: '',
                 preview_file: null,
-                video_file: null
+                video_file: null,
+                permission: ''
             },
             dialog: false,
             form: false,
             loading: false,
-
+            states: [{name: "Всем", value: "for_everyone"},
+                {name: "Подписчикам", value: "for_subscribers"},
+                {name: "Зарегистрированным пользователям", value: "for_authorized"},
+                {name: "Только себе", value: "for_myself"}],
             snackbar: false,
             snackbarText: '',
             snackbarColor: ''
@@ -152,6 +171,9 @@ export default {
                     required,
                     isVideo: isVideo,
                     maxSize: maxSize(100)
+                },
+                permission: {
+                    required
                 }
             },
         }
