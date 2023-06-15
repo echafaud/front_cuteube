@@ -55,6 +55,18 @@ export default function (instance, baseDataConfig) {
             newPayload.params = JSON.parse(JSON.stringify(view))
             return instance.post('view/record_view', newPayload)
         },
+        removeVideo(payload) {
+            const newPayload = structuredClone(baseDataConfig)
+            newPayload.method = 'remove_video'
+            newPayload.params = JSON.parse(JSON.stringify(payload))
+            return instance.post('video/remove_video', newPayload)
+        },
+        adminRemoveVideo(payload) {
+            const newPayload = structuredClone(baseDataConfig)
+            newPayload.method = 'admin_remove_video'
+            newPayload.params = JSON.parse(JSON.stringify(payload))
+            return instance.post('video/admin_remove_video', newPayload)
+        },
         uploadVideo(payload) {
             const newPayload = new FormData()
             newPayload.append('title', payload.title)

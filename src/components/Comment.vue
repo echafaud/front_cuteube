@@ -10,15 +10,15 @@
         <v-list-item-title>{{ user.username }}</v-list-item-title>
         <v-list-item-subtitle class="comment-text">{{ comment.text }}</v-list-item-subtitle>
         <!--                <v-list-item-subtitle>Выложено: {{  }}</v-list-item-subtitle>-->
-        <template v-if="userId===comment.author" v-slot:append>
+        <template v-if="user.id===comment.author || user.isSuperUser" v-slot:append>
             <v-menu>
                 <template v-slot:activator="{ props }">
                     <v-btn icon="mdi-dots-vertical" variant="text" v-bind="props"></v-btn>
                 </template>
                 <v-list class="pa-0">
-                    <v-list-item
-                            prepend-icon="mdi-pencil"
-                            @click="()=>edit = true">Редактировать
+                    <v-list-item v-if="user.id===comment.author"
+                                 prepend-icon="mdi-pencil"
+                                 @click="()=>edit = true">Редактировать
                     </v-list-item>
                     <v-list-item
                             prepend-icon="mdi-delete"
@@ -43,7 +43,7 @@ export default {
     },
     computed: {
         ...mapState({
-            userId: state => state.authUser.user.id
+            user: state => state.authUser.user
         })
     },
     data() {
@@ -54,6 +54,25 @@ export default {
         }
     },
     methods: {
+        removeComment() {
+            if (this.user.isSuperUser) {
+                this.adminDeleteComment({id: this.comment.id}).then(value => {
+                    if (value && value.code) {
+                        console.log('error')
+                    } else {
+                        console.log('success')
+                    }
+                })
+            } else {
+                this.deleteComment({id: this.comment.id}).then(value => {
+                    if (value && value.code) {
+                        console.log('error')
+                    } else {
+                        console.log('success')
+                    }
+                })
+            }
+        },
         async getUser() {
             this.$errorHandler(async () => {
                 return await this.$api.user.getUser({
@@ -69,18 +88,9 @@ export default {
                 }
             })
         },
-        async removeComment() {
-            console.log(this.comment)
-            this.deleteComment({id: this.comment.id}).then(value => {
-                if (value && value.code) {
-                    console.log('error')
-                } else {
-                    console.log('success')
-                }
-            })
-        },
         ...mapActions({
-            deleteComment: "comments/removeComment"
+            deleteComment: "comments/removeComment",
+            adminDeleteComment: "comments/adminRemoveComment"
         }),
     },
 

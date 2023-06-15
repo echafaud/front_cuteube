@@ -20,6 +20,12 @@ export default function (instance, baseDataConfig) {
             newPayload.params = JSON.parse(JSON.stringify(payload))
             return instance.post('comment/remove_comment', newPayload)
         },
+        adminRemoveComment(payload) {
+            const newPayload = structuredClone(baseDataConfig)
+            newPayload.method = 'admin_remove_comment'
+            newPayload.params = JSON.parse(JSON.stringify(payload))
+            return instance.post('comment/admin_remove_comment', newPayload)
+        },
         getVideoComments(payload) {
             const newPayload = structuredClone(baseDataConfig)
             newPayload.method = 'get_video_comments'

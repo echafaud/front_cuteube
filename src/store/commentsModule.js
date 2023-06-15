@@ -77,5 +77,17 @@ export const comments = {
                 }
             })
         },
+        async adminRemoveComment({commit}, id) {
+            return errorHandler(async () => {
+                return await api.comment.adminRemoveComment(id)
+            }).then(value => {
+                if (value && value.code) {
+                    return value
+                } else {
+                    commit('removeComment', id.id)
+                    return value
+                }
+            })
+        },
     }
 }

@@ -15,7 +15,7 @@
                     <v-list-item-subtitle>Подписчиков: {{ author.subscribers }}</v-list-item-subtitle>
                 </v-col>
                 <v-col cols="auto">
-                    <subscribe-button v-if="author.id!==userId" :author="author"></subscribe-button>
+                    <subscribe-button v-if="author.id!==user.id" :author="author"></subscribe-button>
                 </v-col>
             </v-row>
 
@@ -25,6 +25,17 @@
                     <like color="success" icon="mdi-thumb-up" :status="true"></like>
                     <like color="error" icon="mdi-thumb-down" :status="false"></like>
                 </div>
+                <v-menu v-if="user.id===author.id || user.isSuperUser">
+                    <template v-slot:activator="{ props }">
+                        <v-btn icon="mdi-dots-vertical" variant="text" v-bind="props"></v-btn>
+                    </template>
+                    <v-list class="pa-0">
+                        <v-list-item
+                                prepend-icon="mdi-delete"
+                                @click="removeComment">Удалить
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
             </template>
         </v-list-item>
     </v-col>
@@ -41,9 +52,38 @@ export default {
     components: {Dislike, Like, SubscribeButton},
     computed: {
         ...mapState({
-            userId: state => state.authUser.user.id,
-            author: state => state.video.author
+            user: state => state.authUser.user,
+            author: state => state.video.author,
+            videoId: state => state.video.video.id,
         })
     },
+    methods: {
+        removeComment() {
+            if (this.user.isSuperUser) {
+                this.$errorHandler(async () => {
+                    return await this.$api.video.adminRemoveVideo({id: this.videoId})
+                }).then(value => {
+                    if (value && value.code) {
+                        console.log('error')
+                    } else {
+                        console.log('success')
+                    }
+                    this.$router.push('/')
+                })
+            } else {
+                this.$errorHandler(async () => {
+                    return await this.$api.video.removeVideo({id: this.videoId})
+                }).then(value => {
+                    if (value && value.code) {
+                        console.log('error')
+                    } else {
+                        console.log('success')
+                    }
+                    this.$router.push('/')
+                })
+            }
+
+        },
+    }
 }
 </script>
