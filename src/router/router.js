@@ -5,6 +5,8 @@ import Video from "@/views/Video.vue";
 import {createRouter, createWebHistory} from "vue-router";
 import Profile from "@/views/Profile.vue";
 import Verify from "@/views/Verify.vue";
+import ViewedVideos from "@/views/ViewedVideos.vue";
+import SubscribedUserVideos from "@/views/SubscribedUserVideos.vue";
 
 
 const routes = [
@@ -14,6 +16,7 @@ const routes = [
     {path: '/video/:id', component: Video},
     {path: '/user/:id', component: Profile},
     {path: '/verify/:id/:token', component: Verify},
+    {path: '/history', component: ViewedVideos},
 ]
 
 

@@ -69,7 +69,7 @@ export const video = {
             id,
             title,
             description,
-            author,
+            owner,
             likes,
             dislikes,
             views,
@@ -79,7 +79,7 @@ export const video = {
             state.video.id = id
             state.video.title = title
             state.video.description = description
-            state.video.authorId = author
+            state.video.authorId = owner
             state.video.likes = likes
             state.video.dislikes = dislikes
             state.video.views = views
@@ -96,7 +96,7 @@ export const video = {
                     return value
                 } else {
                     const video = JSON.parse(JSON.stringify(value))
-                    dispatch('fetchAuthor', {id: video.author})
+                    dispatch('fetchAuthor', {id: video.owner})
                     commit('setVideo', video)
                     return value
                 }

@@ -11,17 +11,17 @@ export const comments = {
     },
     mutations: {
         setComments(state, comments) {
-            state.comments = comments.map(comment => ({id: comment.id, text: comment.text, author: comment.author_id}))
+            state.comments = comments.map(comment => ({id: comment.id, text: comment.text, author: comment.owner_id}))
         },
         addComment(state, comment) {
             console.log('addComment')
-            state.comments.push({id: comment.id, text: comment.text, author: comment.author_id})
+            state.comments.push({id: comment.id, text: comment.text, author: comment.owner_id})
         },
         editComment(state, editedComment) {
             state.comments = state.comments.map(comment => (comment.id !== editedComment.id ? comment : {
                 id: editedComment.id,
                 text: editedComment.text,
-                author: editedComment.author_id
+                author: editedComment.owner_id
             }))
         },
         removeComment(state, removedComment) {

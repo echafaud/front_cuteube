@@ -24,9 +24,10 @@
         >
             <v-list density="compact" nav>
                 <v-list-item prepend-icon="mdi-home" title="Главная" @click="this.$router.push('/')"></v-list-item>
-                <v-list-item prepend-icon="mdi-account-group" title="Подписки"
-                             @click="this.$router.push('/')"></v-list-item>
-                <v-list-item prepend-icon="mdi-history" title="История" @click="this.$router.push('/')"></v-list-item>
+                <!--                <v-list-item prepend-icon="mdi-account-group" title="Подписки"-->
+                <!--                             @click="this.$router.push('/subscribed')"></v-list-item>-->
+                <v-list-item prepend-icon="mdi-history" title="История"
+                             @click="this.$router.push('/history')"></v-list-item>
             </v-list>
         </v-navigation-drawer>
     </v-container>
