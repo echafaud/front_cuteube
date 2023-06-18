@@ -2,9 +2,9 @@ version: "3.8"
 
 services:
   app:
-    container_name: front_video_hosting
+    container_name: ghcr.io/echafaud/front_cuteube
     image: front_app:v1
     environment:
-      API_URL: "http://localhost:7070/api/v1"
+      API_URL: "XXX"
     ports:
       - 8080:80
