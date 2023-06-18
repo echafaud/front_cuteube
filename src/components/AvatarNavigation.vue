@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-menu v-if="userActive"
+        <v-menu v-if="user.isActive"
                 class="mr-4"
                 min-width="200px"
                 rounded
@@ -30,6 +30,7 @@
                         <v-divider class="my-3"></v-divider>
                         <v-btn
                                 variant="text"
+                                @click="$router.push({ path: `/user/${user.id}` })"
                         >
                             Мой аккаунт
                         </v-btn>
@@ -62,7 +63,7 @@ import {mapActions, mapState} from "vuex";
 export default {
     computed: {
         ...mapState({
-            userActive: state => state.authUser.user.isActive
+            user: state => state.authUser.user
         })
     },
     methods: {

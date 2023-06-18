@@ -31,5 +31,8 @@ export default {
             })
         },
     },
+    mounted() {
+        this.fetchViewedVideos()
+    }
 }
 </script>

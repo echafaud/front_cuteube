@@ -41,7 +41,7 @@ export default {
         async getUser() {
             this.$errorHandler(async () => {
                 return await this.$api.user.getUser({
-                    id: this.video.author
+                    id: this.video.owner
                 })
             }).then(value => {
                 if (value && value.code) {

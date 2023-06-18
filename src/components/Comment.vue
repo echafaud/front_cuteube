@@ -8,6 +8,7 @@
             </v-avatar>
         </template>
         <v-list-item-title>{{ user.username }}</v-list-item-title>
+        <v-list-item-subtitle>Опубликовано: {{ comment.postedAt }}</v-list-item-subtitle>
         <v-list-item-subtitle class="comment-text">{{ comment.text }}</v-list-item-subtitle>
         <!--                <v-list-item-subtitle>Выложено: {{  }}</v-list-item-subtitle>-->
         <template v-if="user.id===comment.author || user.isSuperUser" v-slot:append>

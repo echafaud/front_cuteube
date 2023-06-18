@@ -1,8 +1,9 @@
 import axios from "axios";
 import {accessInterceptor} from "@/functions/interceptors";
+import {apiUrl} from "../../env";
 
 const baseConfig = {
-    baseURL: 'http://localhost:8000/api/v1/',
+    baseURL: apiUrl,
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json'

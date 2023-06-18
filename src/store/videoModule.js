@@ -17,6 +17,7 @@ export const video = {
             link: null,
             previewLink: null,
             stopTimecode: null,
+            uploadedAt: null,
         },
         author: {
             id: null,
@@ -74,6 +75,7 @@ export const video = {
             dislikes,
             views,
             stop_timecode,
+            uploaded_at,
             like,
         }) {
             state.video.id = id
@@ -85,6 +87,7 @@ export const video = {
             state.video.views = views
             state.video.like = like
             state.video.stopTimecode = stop_timecode
+            state.video.uploadedAt = uploaded_at
         },
     },
     actions: {

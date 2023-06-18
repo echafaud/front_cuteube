@@ -2,11 +2,17 @@
     <v-col cols="12">
         <v-list-item class="w-100 pa-0">
             <template v-slot:prepend>
-                <v-avatar
-                        color="#757575"
-                >
-                    <v-icon icon="mdi-account-circle"></v-icon>
-                </v-avatar>
+                <v-btn class="pa-0"
+                       color="transparent"
+                       variant="text"
+                       @click="$router.push({ path: `/user/${author.id}` })">
+                    <v-avatar
+                            color="#757575"
+                    >
+                        <v-icon icon="mdi-account-circle"></v-icon>
+                    </v-avatar>
+                </v-btn>
+
             </template>
             <v-row>
                 <v-col cols="auto">

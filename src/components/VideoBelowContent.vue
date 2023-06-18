@@ -6,7 +6,7 @@
         <video-bar class="pt-0"></video-bar>
         <v-col class="pt-0" cols="12">
             <v-card>
-                <v-card-subtitle>Просмотров: {{ currentVideo.views }}</v-card-subtitle>
+                <v-card-subtitle>Просмотров: {{ currentVideo.views }} Опубликовано: {{ currentVideo.uploadedAt}}</v-card-subtitle>
                 <v-card-text>{{ currentVideo.description }}</v-card-text>
             </v-card>
         </v-col>
