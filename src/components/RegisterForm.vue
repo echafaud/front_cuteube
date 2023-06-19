@@ -102,7 +102,7 @@
         </v-card-actions>
     </v-form>
     <v-snackbar color="green" location="top" v-model="snackbar">
-        Поздравляем! Вы успешно зарегистрировались!
+        Поздравляем! Вы успешно зарегистрировались! На Ваш адрес эл. почты выслано письмо для подтверждения почты.
     </v-snackbar>
 </template>
 
@@ -207,7 +207,7 @@ export default {
                     this.snackbar = true
                     setTimeout(() => {
                         this.$router.push('/login')
-                    }, 3000)
+                    }, 5000)
                 }
             })
 

@@ -13,6 +13,7 @@
         <v-dialog v-model="dialog" class="w-33" persistent>
             <v-card>
                 <v-card-title>Загрузка видео</v-card-title>
+                <v-card-subtitle>*Минимальная продолжительность видео составляет 15 секунд</v-card-subtitle>
                 <v-form v-model="form" @submit.prevent="formSubmit">
                     <v-card-text class="pb-0">
                         <v-row>
@@ -208,7 +209,7 @@ export default {
                     setTimeout(() => {
                         this.$router.push({path: `/video/${value.id}`})
                         this.loading = false
-                    }, 3000)
+                    }, 5000)
                 }
 
                 this.snackbar = true

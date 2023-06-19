@@ -2,8 +2,8 @@ version: "3.8"
 
 services:
   app:
-    container_name: ghcr.io/echafaud/front_cuteube
-    image: front_app:v1
+    container_name: front_app
+    image: ghcr.io/echafaud/front_cuteube:v1
     environment:
       API_URL: "XXX"
     ports:

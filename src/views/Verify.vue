@@ -56,7 +56,7 @@ export default {
                     this.snackbarColor = 'green'
                     setTimeout(() => {
                         this.$router.push('/')
-                    }, 3000)
+                    }, 5000)
                 }
                 this.snackbar = true
             })
