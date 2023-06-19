@@ -26,8 +26,13 @@
                 <v-list-item prepend-icon="mdi-home" title="Главная" @click="this.$router.push('/')"></v-list-item>
                 <!--                <v-list-item prepend-icon="mdi-account-group" title="Подписки"-->
                 <!--                             @click="this.$router.push('/subscribed')"></v-list-item>-->
-                <v-list-item prepend-icon="mdi-history" title="История"
+                <v-list-item v-if="user.id" prepend-icon="mdi-thumb-up" title="Понравившиеся"
+                             @click="this.$router.push('/liked')"></v-list-item>
+                <v-list-item v-if="user.id" prepend-icon="mdi-account-group" title="Подписки"
+                             @click="this.$router.push('/subscribed')"></v-list-item>
+                <v-list-item v-if="user.id" prepend-icon="mdi-history" title="История"
                              @click="this.$router.push('/history')"></v-list-item>
+
             </v-list>
         </v-navigation-drawer>
     </v-container>
@@ -36,6 +41,7 @@
 <script>
 import AvatarNavigation from "@/components/AvatarNavigation.vue";
 import UploadVideo from "@/components/UploadVideo.vue";
+import {mapState} from "vuex";
 
 export default {
     components: {AvatarNavigation, UploadVideo},
@@ -45,6 +51,9 @@ export default {
         }
     },
     computed: {
+        ...mapState({
+            user: state => state.authUser.user
+        }),
         hide() {
             return this.$route.path === '/login' || this.$route.path === '/register';
         }

@@ -15,12 +15,13 @@ export default {
     data() {
         return {
             videos: null,
+            limit: 50
         }
     },
     methods: {
         async fetchViewedVideos() {
             await this.$errorHandler(async () => {
-                return await this.$api.video.getViewedVideos({limit: 10, pagination: 0})
+                return await this.$api.video.getViewedVideos({limit: this.limit, pagination: 0})
             }).then(value => {
                 if (value && value.code) {
                     console.log('error')

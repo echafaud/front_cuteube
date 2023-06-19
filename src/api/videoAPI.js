@@ -36,6 +36,18 @@ export default function (instance, baseDataConfig) {
             newPayload.params = JSON.parse(JSON.stringify(payload))
             return instance.post('video/get_liked_by_users', newPayload)
         },
+        getLikedVideos(payload) {
+            const newPayload = structuredClone(baseDataConfig)
+            newPayload.method = 'get_liked_videos'
+            newPayload.params = JSON.parse(JSON.stringify(payload))
+            return instance.post('video/get_liked_videos', newPayload)
+        },
+        getSubscribedVideos(payload) {
+            const newPayload = structuredClone(baseDataConfig)
+            newPayload.method = 'get_subscribed_videos'
+            newPayload.params = JSON.parse(JSON.stringify(payload))
+            return instance.post('video/get_subscribed_videos', newPayload)
+        },
         getLatestUserVideos(payload) {
             const newPayload = structuredClone(baseDataConfig)
             newPayload.method = 'get_latest_user_videos'

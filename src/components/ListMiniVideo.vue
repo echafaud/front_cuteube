@@ -23,13 +23,14 @@ export default {
     },
     data() {
         return {
-            videos: null
+            videos: null,
+            limit: 50
         }
     },
     methods: {
         async fetchVideos() {
             this.$errorHandler(async () => {
-                return await this.$api.video.getLatestVideos({limit: 10, pagination: 0})
+                return await this.$api.video.getLatestVideos({limit: this.limit, pagination: 0})
             }).then(value => {
                 if (value && value.code) {
                     console.log('error')

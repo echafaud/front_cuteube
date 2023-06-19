@@ -20,9 +20,9 @@ export default {
         }
     },
     methods: {
-        async fetchSubscribedVideos() {
+        async fetchLikedVideos() {
             await this.$errorHandler(async () => {
-                return await this.$api.video.getSubscribedVideos({limit: this.limit, pagination: 0})
+                return await this.$api.video.getLikedVideos({limit: this.limit, pagination: 0})
             }).then(value => {
                 if (value && value.code) {
                     console.log('error')
@@ -34,7 +34,7 @@ export default {
         },
     },
     mounted() {
-        this.fetchSubscribedVideos()
+        this.fetchLikedVideos()
     }
 }
 </script>

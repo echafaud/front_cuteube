@@ -29,6 +29,7 @@ export default {
                 {text: "Популярное", value: 1},
                 {text: "Недавнее", value: 2},
             ],
+            limit: 50,
         }
     },
     methods: {
@@ -48,7 +49,7 @@ export default {
         },
         async fetchLatestVideos() {
             await this.$errorHandler(async () => {
-                return await this.$api.video.getLatestUserVideos({id: this.$route.params.id, limit: 10, pagination: 0})
+                return await this.$api.video.getLatestUserVideos({id: this.$route.params.id, limit: this.limit, pagination: 0})
             }).then(value => {
                 if (value && value.code) {
                     console.log('error')
@@ -60,7 +61,7 @@ export default {
         },
         async fetchPopularVideos() {
             await this.$errorHandler(async () => {
-                return await this.$api.video.getPopularUserVideos({id: this.$route.params.id, limit: 10, pagination: 0})
+                return await this.$api.video.getPopularUserVideos({id: this.$route.params.id, limit: this.limit, pagination: 0})
             }).then(value => {
                 if (value && value.code) {
                     console.log('error')

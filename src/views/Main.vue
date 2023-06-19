@@ -28,7 +28,8 @@ export default defineComponent({
                 {text: "Популярное", value: 1},
                 {text: "Недавнее", value: 2},
                 {text: "Понравившиеся пользователям", value: 3}
-            ]
+            ],
+            limit: 50
         }
     },
     watch: {
@@ -45,7 +46,7 @@ export default defineComponent({
     methods: {
         async fetchLatestVideos() {
             await this.$errorHandler(async () => {
-                return await this.$api.video.getLatestVideos({limit: 10, pagination: 0})
+                return await this.$api.video.getLatestVideos({limit: this.limit, pagination: 0})
             }).then(value => {
                 if (value && value.code) {
                     console.log('error')
@@ -57,7 +58,7 @@ export default defineComponent({
         },
         async fetchPopularVideos() {
             await this.$errorHandler(async () => {
-                return await this.$api.video.getPopularVideos({limit: 10, pagination: 0})
+                return await this.$api.video.getPopularVideos({limit: this.limit, pagination: 0})
             }).then(value => {
                 if (value && value.code) {
                     console.log('error')
@@ -69,7 +70,7 @@ export default defineComponent({
         },
         async fetchLikedByUsersVideos() {
             await this.$errorHandler(async () => {
-                return await this.$api.video.getLikedByUsersVideos({limit: 10, pagination: 0})
+                return await this.$api.video.getLikedByUsersVideos({limit: this.limit, pagination: 0})
             }).then(value => {
                 if (value && value.code) {
                     console.log('error')

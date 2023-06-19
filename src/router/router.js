@@ -7,6 +7,7 @@ import Profile from "@/views/Profile.vue";
 import Verify from "@/views/Verify.vue";
 import ViewedVideos from "@/views/ViewedVideos.vue";
 import SubscribedUserVideos from "@/views/SubscribedUserVideos.vue";
+import LikedVideos from "@/views/LikedVideos.vue";
 
 
 const routes = [
@@ -17,6 +18,8 @@ const routes = [
     {path: '/user/:id', component: Profile},
     {path: '/verify/:id/:token', component: Verify},
     {path: '/history', component: ViewedVideos},
+    {path: '/liked', component: LikedVideos},
+    {path: '/subscribed', component: SubscribedUserVideos},
 ]
 
 
