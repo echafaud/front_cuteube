@@ -57,11 +57,13 @@ export const video = {
         },
         setAuthor(state, {
             id,
+            name,
             username,
             count_subscribers,
             is_subscribed,
         }) {
             state.author.id = id
+            state.author.name = name
             state.author.username = username
             state.author.subscribers = count_subscribers
             state.author.isSubscribed = is_subscribed
@@ -139,6 +141,7 @@ export const video = {
                     return value
                 } else {
                     commit('setAuthor', value)
+                    console.log('setUser')
                     return value
                 }
             })

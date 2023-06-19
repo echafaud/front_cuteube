@@ -1,6 +1,6 @@
 <template>
     <profile-header class="mb-2"></profile-header>
-    <profile-bar :user="user"></profile-bar>
+    <profile-bar></profile-bar>
     <profile-tabs v-model="currentTab"></profile-tabs>
     <main-bar v-model="currentBarTab" :items="barItems"></main-bar>
     <v-row>
@@ -16,6 +16,7 @@ import ProfileBar from "@/components/ProfileBar.vue";
 import ProfileTabs from "@/components/ProfileTabs.vue";
 import MainBar from "@/components/MainBar.vue";
 import ListBigMiniVideo from "@/components/ListBigMiniVideo.vue";
+import {mapActions} from "vuex";
 
 export default {
     components: {ListBigMiniVideo, MainBar, ProfileTabs, ProfileBar, ProfileHeader},
@@ -24,7 +25,6 @@ export default {
             currentTab: null,
             currentBarTab: null,
             videos: null,
-            user: null,
             barItems: [
                 {text: "Популярное", value: 1},
                 {text: "Недавнее", value: 2},
@@ -33,23 +33,25 @@ export default {
         }
     },
     methods: {
-        async getUser() {
-            this.$errorHandler(async () => {
-                return await this.$api.user.getUser({
-                    id: this.$route.params.id
-                })
+        ...mapActions({
+            fetchAuthor: "video/fetchAuthor"
+        }),
+        getUser() {
+            this.fetchAuthor({
+                id: this.$route.params.id
             }).then(value => {
                 if (value && value.code) {
                     console.log('error')
-                } else {
-                    this.user = value
-                    console.log('success')
                 }
             })
         },
         async fetchLatestVideos() {
             await this.$errorHandler(async () => {
-                return await this.$api.video.getLatestUserVideos({id: this.$route.params.id, limit: this.limit, pagination: 0})
+                return await this.$api.video.getLatestUserVideos({
+                    id: this.$route.params.id,
+                    limit: this.limit,
+                    pagination: 0
+                })
             }).then(value => {
                 if (value && value.code) {
                     console.log('error')
@@ -61,7 +63,11 @@ export default {
         },
         async fetchPopularVideos() {
             await this.$errorHandler(async () => {
-                return await this.$api.video.getPopularUserVideos({id: this.$route.params.id, limit: this.limit, pagination: 0})
+                return await this.$api.video.getPopularUserVideos({
+                    id: this.$route.params.id,
+                    limit: this.limit,
+                    pagination: 0
+                })
             }).then(value => {
                 if (value && value.code) {
                     console.log('error')
@@ -82,9 +88,12 @@ export default {
         }
     },
     mounted() {
-        this.getUser()
-        this.currentBarTab = [1]
-
+        this.$watch(
+            () => this.$route.params,
+            () => {
+                this.getUser()
+                this.currentBarTab = [1]
+            }, {immediate: true})
     }
 }
 

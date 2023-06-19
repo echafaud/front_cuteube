@@ -28,16 +28,15 @@ import {mapState} from "vuex";
 
 export default {
     components: {Like, SubscribeButton},
-    props: {
-        user: null
-    },
     computed: {
         ...mapState({
             current_user: state => state.authUser.user,
+            user: state => state.video.author
         }),
     },
     mounted() {
         console.log(this.current_user)
+        console.log(this.user)
     }
 }
 </script>
